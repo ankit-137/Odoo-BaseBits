@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Q&A Community - Home</title>
+    <title>StackIt - Q&A Community</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
 
@@ -87,6 +87,26 @@
             justify-content: center;
             color: white;
             font-weight: bold;
+        }
+
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
         }
 
         .hero {
@@ -310,17 +330,23 @@
             }
         }
     </style>
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <h1>Q&A Community</h1>
+                <h1><a href="home.html" style="color: white; text-decoration: none;">StackIt</a></h1>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Questions</a></li>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="quepage.html">Questions</a></li>
                     <li><a href="#">Tags</a></li>
                     <li><a href="#">Users</a></li>
+                    <li class="notification-bell">
+                        <i class="bx bxs-bell" style="font-size: 1.5rem; color: #60a5fa;"></i>
+                        <span class="notification-count">3</span>
+                    </li>
                     <li class="auth-status">
                         <span id="auth-message">Welcome, Guest</span>
                         <div class="user-avatar" id="user-avatar">G</div>
@@ -362,69 +388,77 @@
 
             <div class="content-header">
                 <h2>Recent Questions</h2>
-                <button class="btn" onclick="location.href='ask.html'">Ask Question</button>
+                <button class="btn" onclick="location.href='quepage.html'">Ask Question</button>
             </div>
 
             <div class="questions-container">
-                <div class="question-card">
-                    <h3 class="question-title">How do I center a div vertically and horizontally in CSS?</h3>
-                    <p class="question-body">I've been trying to center a div both vertically and horizontally on my page but nothing seems to work. I've tried margin: auto and some flexbox properties but can't get it right...</p>
-                    <div class="question-tags">
-                        <span class="tag">css</span>
-                        <span class="tag">flexbox</span>
-                        <span class="tag">centering</span>
+                <a href="addans.html" style="text-decoration: none;">
+                    <div class="question-card">
+                        <h3 class="question-title">How do I center a div vertically and horizontally in CSS?</h3>
+                        <p class="question-body">I've been trying to center a div both vertically and horizontally on my page but nothing seems to work. I've tried margin: auto and some flexbox properties but can't get it right...</p>
+                        <div class="question-tags">
+                            <span class="tag">css</span>
+                            <span class="tag">flexbox</span>
+                            <span class="tag">centering</span>
+                        </div>
+                        <div class="question-meta">
+                            <span>5 answers</span>
+                            <span>asked 2 hours ago</span>
+                            <span>by user123</span>
+                        </div>
                     </div>
-                    <div class="question-meta">
-                        <span>5 answers</span>
-                        <span>asked 2 hours ago</span>
-                        <span>by user123</span>
-                    </div>
-                </div>
+                </a>
 
-                <div class="question-card">
-                    <h3 class="question-title">What's the difference between let, const, and var in JavaScript?</h3>
-                    <p class="question-body">I'm learning JavaScript and confused about when to use let, const, and var. Can someone explain the key differences and when to use each?</p>
-                    <div class="question-tags">
-                        <span class="tag">javascript</span>
-                        <span class="tag">variables</span>
-                        <span class="tag">es6</span>
+                <a href="addans.html" style="text-decoration: none;">
+                    <div class="question-card">
+                        <h3 class="question-title">What's the difference between let, const, and var in JavaScript?</h3>
+                        <p class="question-body">I'm learning JavaScript and confused about when to use let, const, and var. Can someone explain the key differences and when to use each?</p>
+                        <div class="question-tags">
+                            <span class="tag">javascript</span>
+                            <span class="tag">variables</span>
+                            <span class="tag">es6</span>
+                        </div>
+                        <div class="question-meta">
+                            <span>12 answers</span>
+                            <span>asked 1 day ago</span>
+                            <span>by jsLearner</span>
+                        </div>
                     </div>
-                    <div class="question-meta">
-                        <span>12 answers</span>
-                        <span>asked 1 day ago</span>
-                        <span>by jsLearner</span>
-                    </div>
-                </div>
+                </a>
 
-                <div class="question-card">
-                    <h3 class="question-title">How to properly handle errors in async/await functions?</h3>
-                    <p class="question-body">I'm having trouble with error handling in my async functions. Sometimes errors slip through and crash my app. What's the best practice for error handling with async/await?</p>
-                    <div class="question-tags">
-                        <span class="tag">javascript</span>
-                        <span class="tag">async</span>
-                        <span class="tag">error-handling</span>
+                <a href="addans.html" style="text-decoration: none;">
+                    <div class="question-card">
+                        <h3 class="question-title">How to properly handle errors in async/await functions?</h3>
+                        <p class="question-body">I'm having trouble with error handling in my async functions. Sometimes errors slip through and crash my app. What's the best practice for error handling with async/await?</p>
+                        <div class="question-tags">
+                            <span class="tag">javascript</span>
+                            <span class="tag">async</span>
+                            <span class="tag">error-handling</span>
+                        </div>
+                        <div class="question-meta">
+                            <span>8 answers</span>
+                            <span>asked 1 day ago</span>
+                            <span>by asyncDev</span>
+                        </div>
                     </div>
-                    <div class="question-meta">
-                        <span>8 answers</span>
-                        <span>asked 1 day ago</span>
-                        <span>by asyncDev</span>
-                    </div>
-                </div>
+                </a>
 
-                <div class="question-card">
-                    <h3 class="question-title">Best way to structure a React project in 2023?</h3>
-                    <p class="question-body">I'm starting a new React project and want to make sure I'm using the most current best practices for project structure. Any recommendations for folder structure and organization?</p>
-                    <div class="question-tags">
-                        <span class="tag">react</span>
-                        <span class="tag">javascript</span>
-                        <span class="tag">project-structure</span>
+                <a href="addans.html" style="text-decoration: none;">
+                    <div class="question-card">
+                        <h3 class="question-title">Best way to structure a React project in 2023?</h3>
+                        <p class="question-body">I'm starting a new React project and want to make sure I'm using the most current best practices for project structure. Any recommendations for folder structure and organization?</p>
+                        <div class="question-tags">
+                            <span class="tag">react</span>
+                            <span class="tag">javascript</span>
+                            <span class="tag">project-structure</span>
+                        </div>
+                        <div class="question-meta">
+                            <span>15 answers</span>
+                            <span>asked 2 days ago</span>
+                            <span>by reactNewbie</span>
+                        </div>
                     </div>
-                    <div class="question-meta">
-                        <span>15 answers</span>
-                        <span>asked 2 days ago</span>
-                        <span>by reactNewbie</span>
-                    </div>
-                </div>
+                </a>
             </div>
 
             <div class="pagination">
@@ -439,7 +473,7 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 Q&A Community. All rights reserved.</p>
+            <p>&copy; 2023 StackIt Q&A. All rights reserved.</p>
         </div>
     </footer>
 
@@ -470,11 +504,16 @@
         // Initialize auth state
         checkAuthState();
 
-        // Simulate login (in a real app, this would be handled by a login form)
-        function simulateLogin() {
-            isLoggedIn = true;
-            currentUser.name = "Developer";
-            currentUser.avatar = "D";
+        // For demo purposes - click avatar to simulate login
+        userAvatar.addEventListener('click', function() {
+            isLoggedIn = !isLoggedIn;
+            if (isLoggedIn) {
+                currentUser.name = "Developer";
+                currentUser.avatar = "D";
+            } else {
+                currentUser.name = "Guest";
+                currentUser.avatar = "G";
+            }
             checkAuthState();
             
             // Show success message
@@ -482,13 +521,13 @@
             alert.style.position = 'fixed';
             alert.style.top = '20px';
             alert.style.right = '20px';
-            alert.style.backgroundColor = '#10b981';
+            alert.style.backgroundColor = isLoggedIn ? '#10b981' : '#3b82f6';
             alert.style.color = 'white';
             alert.style.padding = '15px 25px';
             alert.style.borderRadius = '5px';
             alert.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
             alert.style.zIndex = '1000';
-            alert.textContent = 'You have been logged in successfully!';
+            alert.textContent = isLoggedIn ? 'You have been logged in successfully!' : 'You have been logged out';
             document.body.appendChild(alert);
             
             // Remove alert after 3 seconds
@@ -498,10 +537,46 @@
                     document.body.removeChild(alert);
                 }, 300);
             }, 3000);
-        }
+        });
 
-        // For demo purposes - click avatar to simulate login
-        userAvatar.addEventListener('click', simulateLogin);
+        // Notification bell click handler
+        document.querySelector('.notification-bell').addEventListener('click', function() {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = 
+                <div class="modal-content" style="width: 400px; max-width: 90%;">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Notifications</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div style="max-height: 300px; overflow-y: auto;">
+                        <div style="padding: 10px; border-bottom: 1px solid #334155;">
+                            <p><strong>@jsExpert</strong> answered your question about JavaScript closures</p>
+                            <small style="color: #94a3b8;">2 hours ago</small>
+                        </div>
+                        <div style="padding: 10px; border-bottom: 1px solid #334155;">
+                            <p><strong>@cssMaster</strong> mentioned you in a comment</p>
+                            <small style="color: #94a3b8;">5 hours ago</small>
+                        </div>
+                        <div style="padding: 10px;">
+                            <p>Your answer was accepted by <strong>@reactDev</strong></p>
+                            <small style="color: #94a3b8;">1 day ago</small>
+                        </div>
+                    </div>
+                </div>
+        
+            
+            document.body.appendChild(modal);
+            
+            modal.querySelector('.close-modal').addEventListener('click', function() {
+                modal.style.display = 'none';
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                }, 300);
+            });
+        });
+
     </script>
 </body>
 </html>

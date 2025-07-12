@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login Register Form</title>
+  <title>Login | StackIt Q&A</title>
   <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
     :root {
       --white: #fff;
       --black: #000;
-      --lightBulue: #2196f3;
+      --lightBlue: #2196f3;
     }
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Outfit', sans-serif;
     }
     
     body {
@@ -170,6 +170,10 @@
       opacity: 1;
       pointer-events: auto;
       cursor: pointer;
+    }
+
+    form button.enabled:hover {
+      background-color: #2563eb;
     }
 
     .linkTxt {
@@ -327,9 +331,32 @@
       50% { transform: translateY(-8px); }
       100% { transform: translateY(0px); }
     }
+
+    /* Back to home link */
+    .back-home {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      color: #60a5fa;
+      text-decoration: none;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      z-index: 10;
+    }
+
+    .back-home:hover {
+      color: #93c5fd;
+      text-shadow: 0 0 10px #3b82f6;
+    }
   </style>
 </head>
 <body>
+  <a href="home.html" class="back-home">
+    <i class='bx bx-arrow-back'></i> Back to Home
+  </a>
+
   <div class="wrapper">
     <span class="rotate-bg"></span>
     <span class="rotate-bg2"></span>
@@ -337,7 +364,7 @@
     <!-- Login Form -->
     <div class="form-box login">
       <h2 class="title animation" style="--i:0; --j:21">Login</h2>
-      <form>
+      <form id="loginForm">
         <div class="input-box animation" style="--i:1; --j:22">
           <input type="text" required />
           <label>Username</label>
@@ -348,7 +375,7 @@
           <label>Password</label>
           <i class='bx bxs-lock-alt'></i>
         </div>
-        <button type="submit" class="animation" style="--i:3; --j:24">Login</button>
+        <button type="submit" class="animation" style="--i:3; --j:24" id="loginBtn">Login</button>
         <div class="linkTxt animation" style="--i:5; --j:25">
           <p>Don't have an account? <a href="#" class="register-link">Sign Up</a></p>
         </div>
@@ -358,13 +385,13 @@
     <!-- Login Info Text -->
     <div class="info-text login">
       <h2 class="animation" style="--i:0; --j:20">Welcome Back!</h2>
-      <p class="animation" style="--i:1; --j:21">Login and connect instantly.</p>
+      <p class="animation" style="--i:1; --j:21">Login to continue your journey with StackIt.</p>
     </div>
 
     <!-- Register Form -->
     <div class="form-box register">
       <h2 class="title animation" style="--i:17; --j:0">Sign Up</h2>
-      <form>
+      <form id="registerForm">
         <div class="input-box animation" style="--i:18; --j:1">
           <input type="text" required />
           <label>Username</label>
@@ -380,7 +407,7 @@
           <label>Password</label>
           <i class='bx bxs-lock-alt'></i>
         </div>
-        <button type="submit" class="animation" style="--i:21; --j:4">Sign Up</button>
+        <button type="submit" class="animation" style="--i:21; --j:4" id="registerBtn">Sign Up</button>
         <div class="linkTxt animation" style="--i:22; --j:5">
           <p>Already have an account? <a href="#" class="login-link">Login</a></p>
         </div>
@@ -389,8 +416,8 @@
 
     <!-- Register Info Text -->
     <div class="info-text register">
-      <h2 class="animation" style="--i:17; --j:0">Welcome!</h2>
-      <p class="animation" style="--i:18; --j:1">Create your account to get started.</p>
+      <h2 class="animation" style="--i:17; --j:0">Join StackIt!</h2>
+      <p class="animation" style="--i:18; --j:1">Create your account to start asking and answering questions.</p>
     </div>
   </div>
 
@@ -398,14 +425,16 @@
     const wrapper = document.querySelector('.wrapper');
     const registerLink = document.querySelector('.register-link');
     const loginLink = document.querySelector('.login-link');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const loginBtn = document.getElementById('loginBtn');
+    const registerBtn = document.getElementById('registerBtn');
 
     registerLink.onclick = () => wrapper.classList.add('active');
     loginLink.onclick = () => wrapper.classList.remove('active');
 
-    function enableButtons(formSelector) {
-      const form = document.querySelector(formSelector);
+    function enableButtons(form, button) {
       const inputs = form.querySelectorAll("input");
-      const button = form.querySelector("button");
 
       function checkInputs() {
         const allFilled = Array.from(inputs).every(input => input.value.trim() !== "");
@@ -415,8 +444,24 @@
       inputs.forEach(input => input.addEventListener("input", checkInputs));
     }
 
-    enableButtons(".form-box.login form");
-    enableButtons(".form-box.register form");
+    enableButtons(loginForm, loginBtn);
+    enableButtons(registerForm, registerBtn);
+
+    // Form submission handlers
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // In a real app, you would handle login here
+      // For demo, redirect to home page
+      window.location.href = 'home.html';
+    });
+
+    registerForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      // In a real app, you would handle registration here
+      // For demo, show success message and switch to login
+      alert('Registration successful! Please login.');
+      wrapper.classList.remove('active');
+    });
   </script>
 </body>
 </html>

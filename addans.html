@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Answer Question - Q&A Community</title>
+    <title>Answer Question - StackIt Q&A</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
 
@@ -86,6 +86,26 @@
             font-weight: bold;
         }
 
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .notification-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #ef4444;
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
         .main-content {
             padding: 40px 0;
         }
@@ -121,19 +141,19 @@
             line-height: 1.7;
         }
 
-        .login-prompt {
-            background-color: #0f172a;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px #3b82f6;
-            text-align: center;
-            margin-bottom: 30px;
+        .question-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
         }
 
-        .login-prompt h2 {
-            font-size: 1.5rem;
-            color: #93c5fd;
-            margin-bottom: 20px;
+        .tag {
+            background-color: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
         }
 
         .answer-form {
@@ -141,7 +161,6 @@
             padding: 30px;
             border-radius: 8px;
             box-shadow: 0 0 15px #3b82f6;
-            display: none; /* Hidden by default */
         }
 
         .answer-form h2 {
@@ -213,15 +232,6 @@
             background-color: #2563eb;
         }
 
-        .btn-login {
-            background-color: #3b82f6;
-            margin-top: 10px;
-        }
-
-        .btn-login:hover {
-            box-shadow: #60a5fa;
-        }
-
         footer {
             background-color: #1e293b;
             color: white;
@@ -277,6 +287,72 @@
             cursor: pointer;
         }
 
+        /* Answers section */
+        .answers-container {
+            margin-top: 40px;
+        }
+
+        .answers-header {
+            font-size: 1.5rem;
+            color: #93c5fd;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #3b82f6;
+        }
+
+        .answer-card {
+            background-color: #1e293b;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.2);
+            border-left: 3px solid #3b82f6;
+        }
+
+        .answer-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .answer-body {
+            color: #e2e8f0;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+
+        .answer-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .vote-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .vote-btn:hover {
+            color: #60a5fa;
+        }
+
+        .accepted-badge {
+            background-color: #10b981;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
         @media (max-width: 768px) {
             header h1 {
                 font-size: 2rem;
@@ -294,17 +370,23 @@
     </style>
     <!-- Include Quill stylesheet -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <!-- Boxicons CSS -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <h1>Q&A Community</h1>
+                <h1><a href="home.html" style="color: white; text-decoration: none;">StackIt</a></h1>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Questions</a></li>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="quepage.html">Questions</a></li>
                     <li><a href="#">Tags</a></li>
                     <li><a href="#">Users</a></li>
+                    <li class="notification-bell">
+                        <i class="bx bxs-bell" style="font-size: 1.5rem; color: #60a5fa;"></i>
+                        <span class="notification-count">3</span>
+                    </li>
                     <li class="auth-status">
                         <span id="auth-message">Welcome, Guest</span>
                         <div class="user-avatar" id="user-avatar">G</div>
@@ -322,6 +404,7 @@
                     <span>Asked 2 hours ago</span>
                     <span>by user123</span>
                     <span>5 answers</span>
+                    <span>15 views</span>
                 </div>
                 <div class="question-body">
                     <p>I've been trying to center a div both vertically and horizontally on my page but nothing seems to work. I've tried margin: auto and some flexbox properties but can't get it right.</p>
@@ -332,16 +415,74 @@
 }</code></pre>
                     <p>But the content still appears at the top left of the page. What am I missing?</p>
                 </div>
+                <div class="question-tags">
+                    <span class="tag">css</span>
+                    <span class="tag">flexbox</span>
+                    <span class="tag">centering</span>
+                </div>
             </div>
 
-            <!-- Login prompt (shown when user is not logged in) -->
-            <div class="login-prompt" id="login-prompt">
-                <h2>Login to Post an Answer</h2>
-                <p>You need to be logged in to post an answer to this question.</p>
-                <button class="btn btn-login" id="login-btn">Login</button>
+            <!-- Answers section -->
+            <div class="answers-container">
+                <h2 class="answers-header">5 Answers</h2>
+                
+                <div class="answer-card">
+                    <div class="answer-meta">
+                        <span>Answered by devExpert</span>
+                        <span>1 hour ago</span>
+                    </div>
+                    <div class="answer-body">
+                        <p>To center a div both vertically and horizontally, you can use the following CSS:</p>
+                        <pre><code>.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* This ensures the container takes full viewport height */
+}</code></pre>
+                        <p>This is the modern way using Flexbox. The <code>justify-content: center</code> centers horizontally and <code>align-items: center</code> centers vertically.</p>
+                    </div>
+                    <div class="answer-actions">
+                        <button class="vote-btn">
+                            <i class="bx bx-upvote" style="font-size: 1.2rem;"></i>
+                            <span>12</span>
+                        </button>
+                        <button class="vote-btn">
+                            <i class="bx bx-downvote" style="font-size: 1.2rem;"></i>
+                            <span>2</span>
+                        </button>
+                        <button class="btn" style="padding: 5px 10px; font-size: 0.9rem;">Accept Answer</button>
+                        <span class="accepted-badge">Accepted</span>
+                    </div>
+                </div>
+                
+                <div class="answer-card">
+                    <div class="answer-meta">
+                        <span>Answered by cssMaster</span>
+                        <span>45 minutes ago</span>
+                    </div>
+                    <div class="answer-body">
+                        <p>Another approach using CSS Grid:</p>
+                        <pre><code>.container {
+    display: grid;
+    place-items: center;
+    height: 100vh;
+}</code></pre>
+                        <p>The <code>place-items: center</code> is a shorthand that combines both <code>justify-items</code> and <code>align-items</code>.</p>
+                    </div>
+                    <div class="answer-actions">
+                        <button class="vote-btn">
+                            <i class="bx bx-upvote" style="font-size: 1.2rem;"></i>
+                            <span>8</span>
+                        </button>
+                        <button class="vote-btn">
+                            <i class="bx bx-downvote" style="font-size: 1.2rem;"></i>
+                            <span>1</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <!-- Answer form (shown when user is logged in) -->
+            <!-- Answer form (always shown) -->
             <div class="answer-form" id="answer-form">
                 <h2>Post Your Answer</h2>
                 <form id="answerForm">
@@ -356,60 +497,24 @@
         </div>
     </section>
 
-    <!-- Login Modal -->
-    <div class="modal" id="login-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">Login to Q&A Community</h3>
-                <button class="close-modal" id="close-login-modal">&times;</button>
-            </div>
-            <form id="loginForm">
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; color: #f1f5f9;">Email</label>
-                    <input type="email" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #60a5fa; background-color: #1e293b; color: #f1f5f9;" required>
-                </div>
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; margin-bottom: 8px; color: #f1f5f9;">Password</label>
-                    <input type="password" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #60a5fa; background-color: #1e293b; color: #f1f5f9;" required>
-                </div>
-                <button type="submit" class="btn btn-login" style="width: 100%;">Login</button>
-            </form>
-        </div>
-    </div>
-
     <footer>
         <div class="container">
-            <p>&copy; 2023 Q&A Community. All rights reserved.</p>
+            <p>&copy; 2023 StackIt Q&A. All rights reserved.</p>
         </div>
     </footer>
 
     <!-- Include Quill library -->
     <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- Boxicons for icons -->
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
     <script>
-        // Simulated user authentication state
-        let isLoggedIn = false;
-        const currentUser = {
-            name: "Guest",
-            email: "",
-            avatar: "G"
-        };
-
-        // DOM elements
-        const authMessage = document.getElementById('auth-message');
-        const userAvatar = document.getElementById('user-avatar');
-        const loginPrompt = document.getElementById('login-prompt');
-        const answerForm = document.getElementById('answer-form');
-        const loginBtn = document.getElementById('login-btn');
-        const loginModal = document.getElementById('login-modal');
-        const closeLoginModal = document.getElementById('close-login-modal');
-        const loginForm = document.getElementById('loginForm');
-
-        // Initialize Quill editor
+        // Initialize Quill editor with enhanced toolbar
         const quill = new Quill('#editor-container', {
             theme: 'snow',
             modules: {
                 toolbar: [
                     ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'header': [1, 2, 3, false] }],
                     [{ 'color': [] }, { 'background': [] }],
                     [{ 'align': [] }],
                     [{ 'list': 'ordered'}, { 'list': 'bullet' }],
@@ -421,6 +526,7 @@
             placeholder: 'Write your answer here...',
             formats: [
                 'bold', 'italic', 'underline', 'strike',
+                'header',
                 'color', 'background',
                 'align',
                 'list', 'bullet',
@@ -428,92 +534,9 @@
             ]
         });
 
-        // Check authentication state and update UI
-        function checkAuthState() {
-            if (isLoggedIn) {
-                authMessage.textContent = `Welcome, ${currentUser.name}`;
-                userAvatar.textContent = currentUser.avatar;
-                loginPrompt.style.display = 'none';
-                answerForm.style.display = 'block';
-            } else {
-                authMessage.textContent = 'Welcome, Guest';
-                userAvatar.textContent = 'G';
-                loginPrompt.style.display = 'block';
-                answerForm.style.display = 'none';
-            }
-        }
-
-        // Initialize auth state
-        checkAuthState();
-
-        // Login button click handler
-        loginBtn.addEventListener('click', function() {
-            loginModal.style.display = 'flex';
-        });
-
-        // Close modal button
-        closeLoginModal.addEventListener('click', function() {
-            loginModal.style.display = 'none';
-        });
-
-        // Login form submission
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simulate login (in a real app, you would make an API call here)
-            isLoggedIn = true;
-            currentUser.name = "Developer";
-            currentUser.email = this.querySelector('input[type="email"]').value;
-            currentUser.avatar = "D";
-            
-            // Update UI
-            checkAuthState();
-            loginModal.style.display = 'none';
-            
-            // Show success message
-            showAlert('You have been logged in successfully!', 'success');
-        });
-
-        // Preview button functionality
-        document.getElementById('preview-btn').addEventListener('click', function() {
-            if (!isLoggedIn) {
-                showAlert('Please login to preview your answer', 'error');
-                return;
-            }
-            
-            const modal = document.createElement('div');
-            modal.className = 'modal';
-            modal.style.display = 'flex';
-            modal.innerHTML = `
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title">Answer Preview</h3>
-                        <button class="close-modal">&times;</button>
-                    </div>
-                    <div class="question-body" style="padding: 0;">
-                        ${document.querySelector('.ql-editor').innerHTML}
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            
-            modal.querySelector('.close-modal').addEventListener('click', function() {
-                modal.style.display = 'none';
-                setTimeout(() => {
-                    document.body.removeChild(modal);
-                }, 300);
-            });
-        });
-
         // Answer form submission
         document.getElementById('answerForm').addEventListener('submit', function(e) {
             e.preventDefault();
-
-            if (!isLoggedIn) {
-                showAlert('Please login to post an answer', 'error');
-                return;
-            }
 
             // Get the HTML content from the editor
             const editorContent = document.querySelector('.ql-editor').innerHTML;
@@ -536,13 +559,48 @@
             quill.root.innerHTML = '';
         });
 
+        // Preview button functionality
+        document.getElementById('preview-btn').addEventListener('click', function() {
+            const editorContent = document.querySelector('.ql-editor').innerHTML;
+            
+            if (!editorContent || editorContent === '<p><br></p>') {
+                showAlert('Please add some content to preview', 'error');
+                return;
+            }
+
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Answer Preview</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="question-body" style="padding: 0;">
+                        ${editorContent || '<p>No content provided</p>'}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.querySelector('.close-modal').addEventListener('click', function() {
+                modal.style.display = 'none';
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                }, 300);
+            });
+        });
+
         // Helper function to show alerts
         function showAlert(message, type) {
             const alert = document.createElement('div');
             alert.style.position = 'fixed';
             alert.style.top = '20px';
             alert.style.right = '20px';
-            alert.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+            alert.style.backgroundColor = type === 'success' ? '#10b981' : 
+                                         type === 'error' ? '#ef4444' : '#3b82f6';
             alert.style.color = 'white';
             alert.style.padding = '15px 25px';
             alert.style.borderRadius = '5px';

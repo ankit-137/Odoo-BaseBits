@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Question - Q&A Community</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f1f5f9;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #1e293b;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 0 20px #3b82f6;
+            border-bottom: 2px solid #3b82f6;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+
+        nav ul li a:hover {
+            background-color: rgba(96, 165, 250, 0.1);
+            color: #93c5fd;
+        }
+
+        .auth-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #3b82f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .question-container {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .question-title {
+            font-size: 1.8rem;
+            color: #f8fafc;
+            margin-bottom: 15px;
+        }
+
+        .question-meta {
+            display: flex;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+
+        .question-meta span {
+            margin-right: 15px;
+        }
+
+        .question-body {
+            margin-bottom: 25px;
+            color: #e2e8f0;
+            line-height: 1.7;
+        }
+
+        .login-prompt {
+            background-color: #0f172a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px #3b82f6;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-prompt h2 {
+            font-size: 1.5rem;
+            color: #93c5fd;
+            margin-bottom: 20px;
+        }
+
+        .answer-form {
+            background-color: #0f172a;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px #3b82f6;
+            display: none; /* Hidden by default */
+        }
+
+        .answer-form h2 {
+            font-size: 1.5rem;
+            color: #93c5fd;
+            margin-bottom: 20px;
+        }
+
+        .editor-container {
+            background-color: #1e293b;
+            border: 1px solid #60a5fa;
+            border-radius: 4px;
+            min-height: 200px;
+            color: #f1f5f9;
+            margin-bottom: 20px;
+        }
+
+        .ql-toolbar {
+            background-color: #1e293b;
+            border-bottom: 1px solid #60a5fa;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .ql-container {
+            border: none !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            background-color: #1e293b;
+        }
+
+        .ql-editor {
+            min-height: 200px;
+            color: #f1f5f9;
+            padding: 12px 15px;
+            line-height: 1.6;
+        }
+
+        .ql-editor.ql-blank::before {
+            color: #94a3b8;
+            font-style: normal;
+            left: 15px;
+        }
+
+        .ql-snow .ql-stroke {
+            stroke: #f1f5f9;
+        }
+
+        .ql-snow .ql-fill {
+            fill: #f1f5f9;
+        }
+
+        .ql-snow .ql-picker {
+            color: #f1f5f9;
+        }
+
+        .btn {
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2563eb;
+        }
+
+        .btn-login {
+            background-color: #3b82f6;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            box-shadow: #60a5fa;
+        }
+
+        footer {
+            background-color: #1e293b;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 -2px 10px #3b82f6;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #1e293b;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            border: 1px solid #3b82f6;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            color: #93c5fd;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: #f1f5f9;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            nav ul li {
+                margin-left: 0;
+            }
+        }
+    </style>
+    <!-- Include Quill stylesheet -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <h1>Q&A Community</h1>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Questions</a></li>
+                    <li><a href="#">Tags</a></li>
+                    <li><a href="#">Users</a></li>
+                    <li class="auth-status">
+                        <span id="auth-message">Welcome, Guest</span>
+                        <div class="user-avatar" id="user-avatar">G</div>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="main-content">
+        <div class="container">
+            <div class="question-container">
+                <h1 class="question-title">How do I center a div vertically and horizontally in CSS?</h1>
+                <div class="question-meta">
+                    <span>Asked 2 hours ago</span>
+                    <span>by user123</span>
+                    <span>5 answers</span>
+                </div>
+                <div class="question-body">
+                    <p>I've been trying to center a div both vertically and horizontally on my page but nothing seems to work. I've tried margin: auto and some flexbox properties but can't get it right.</p>
+                    <p>Here's what I've tried:</p>
+                    <pre><code>.container {
+    margin: auto;
+    display: flex;
+}</code></pre>
+                    <p>But the content still appears at the top left of the page. What am I missing?</p>
+                </div>
+            </div>
+
+            <!-- Login prompt (shown when user is not logged in) -->
+            <div class="login-prompt" id="login-prompt">
+                <h2>Login to Post an Answer</h2>
+                <p>You need to be logged in to post an answer to this question.</p>
+                <button class="btn btn-login" id="login-btn">Login</button>
+            </div>
+
+            <!-- Answer form (shown when user is logged in) -->
+            <div class="answer-form" id="answer-form">
+                <h2>Post Your Answer</h2>
+                <form id="answerForm">
+                    <div class="form-group">
+                        <div id="editor-container" class="editor-container"></div>
+                        <input type="hidden" id="answerBody" name="answerBody">
+                    </div>
+                    <button type="submit" class="btn">Post Answer</button>
+                    <button type="button" id="preview-btn" class="btn" style="background-color: #64748b; margin-left: 10px;">Preview</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Login to Q&A Community</h3>
+                <button class="close-modal" id="close-login-modal">&times;</button>
+            </div>
+            <form id="loginForm">
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #f1f5f9;">Email</label>
+                    <input type="email" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #60a5fa; background-color: #1e293b; color: #f1f5f9;" required>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; margin-bottom: 8px; color: #f1f5f9;">Password</label>
+                    <input type="password" style="width: 100%; padding: 10px; border-radius: 4px; border: 1px solid #60a5fa; background-color: #1e293b; color: #f1f5f9;" required>
+                </div>
+                <button type="submit" class="btn btn-login" style="width: 100%;">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 Q&A Community. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Include Quill library -->
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script>
+        // Simulated user authentication state
+        let isLoggedIn = false;
+        const currentUser = {
+            name: "Guest",
+            email: "",
+            avatar: "G"
+        };
+
+        // DOM elements
+        const authMessage = document.getElementById('auth-message');
+        const userAvatar = document.getElementById('user-avatar');
+        const loginPrompt = document.getElementById('login-prompt');
+        const answerForm = document.getElementById('answer-form');
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeLoginModal = document.getElementById('close-login-modal');
+        const loginForm = document.getElementById('loginForm');
+
+        // Initialize Quill editor
+        const quill = new Quill('#editor-container', {
+            theme: 'snow',
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],
+                    [{ 'color': [] }, { 'background': [] }],
+                    [{ 'align': [] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link', 'image', 'code-block'],
+                    ['clean']
+                ],
+                syntax: true
+            },
+            placeholder: 'Write your answer here...',
+            formats: [
+                'bold', 'italic', 'underline', 'strike',
+                'color', 'background',
+                'align',
+                'list', 'bullet',
+                'link', 'image', 'code-block'
+            ]
+        });
+
+        // Check authentication state and update UI
+        function checkAuthState() {
+            if (isLoggedIn) {
+                authMessage.textContent = `Welcome, ${currentUser.name}`;
+                userAvatar.textContent = currentUser.avatar;
+                loginPrompt.style.display = 'none';
+                answerForm.style.display = 'block';
+            } else {
+                authMessage.textContent = 'Welcome, Guest';
+                userAvatar.textContent = 'G';
+                loginPrompt.style.display = 'block';
+                answerForm.style.display = 'none';
+            }
+        }
+
+        // Initialize auth state
+        checkAuthState();
+
+        // Login button click handler
+        loginBtn.addEventListener('click', function() {
+            loginModal.style.display = 'flex';
+        });
+
+        // Close modal button
+        closeLoginModal.addEventListener('click', function() {
+            loginModal.style.display = 'none';
+        });
+
+        // Login form submission
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate login (in a real app, you would make an API call here)
+            isLoggedIn = true;
+            currentUser.name = "Developer";
+            currentUser.email = this.querySelector('input[type="email"]').value;
+            currentUser.avatar = "D";
+            
+            // Update UI
+            checkAuthState();
+            loginModal.style.display = 'none';
+            
+            // Show success message
+            showAlert('You have been logged in successfully!', 'success');
+        });
+
+        // Preview button functionality
+        document.getElementById('preview-btn').addEventListener('click', function() {
+            if (!isLoggedIn) {
+                showAlert('Please login to preview your answer', 'error');
+                return;
+            }
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.style.display = 'flex';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3 class="modal-title">Answer Preview</h3>
+                        <button class="close-modal">&times;</button>
+                    </div>
+                    <div class="question-body" style="padding: 0;">
+                        ${document.querySelector('.ql-editor').innerHTML}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            modal.querySelector('.close-modal').addEventListener('click', function() {
+                modal.style.display = 'none';
+                setTimeout(() => {
+                    document.body.removeChild(modal);
+                }, 300);
+            });
+        });
+
+        // Answer form submission
+        document.getElementById('answerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!isLoggedIn) {
+                showAlert('Please login to post an answer', 'error');
+                return;
+            }
+
+            // Get the HTML content from the editor
+            const editorContent = document.querySelector('.ql-editor').innerHTML;
+            document.getElementById('answerBody').value = editorContent;
+
+            const answerBody = document.getElementById('answerBody').value;
+
+            if (!answerBody || answerBody === '<p><br></p>') {
+                showAlert('Please write an answer before submitting', 'error');
+                return;
+            }
+
+            console.log('Answer submitted:', { answerBody });
+            
+            // Show success message
+            showAlert('Your answer has been posted successfully!', 'success');
+
+            // Reset form
+            this.reset();
+            quill.root.innerHTML = '';
+        });
+
+        // Helper function to show alerts
+        function showAlert(message, type) {
+            const alert = document.createElement('div');
+            alert.style.position = 'fixed';
+            alert.style.top = '20px';
+            alert.style.right = '20px';
+            alert.style.backgroundColor = type === 'success' ? '#10b981' : '#ef4444';
+            alert.style.color = 'white';
+            alert.style.padding = '15px 25px';
+            alert.style.borderRadius = '5px';
+            alert.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+            alert.style.zIndex = '1000';
+            alert.style.transition = 'all 0.3s ease';
+            alert.textContent = message;
+            document.body.appendChild(alert);
+            
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                alert.style.opacity = '0';
+                setTimeout(() => {
+                    document.body.removeChild(alert);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
